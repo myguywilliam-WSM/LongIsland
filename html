@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Long Island territory plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#121821; --panel:#1b232f; --panel2:#212b38;
+    --ink:#EDE9DF; --muted:#94A0AF; --hair:rgba(237,233,223,0.1);
+    --nassau:#5B94F2; --nassau-ink:#DCE8FF;
+    --west:#9A8CEE; --west-ink:#E7E2FF;
+    --east:#E8825A; --east-ink:#FBDFD1;
+    --amber:#F2A63C;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans',sans-serif;line-height:1.6}
+  .wrap{max-width:920px;margin:0 auto;padding:56px 24px 80px}
+  h1,h2{font-family:'Fraunces',serif;font-weight:500;margin:0;color:var(--ink)}
+  h1{font-size:40px;letter-spacing:-0.01em}
+  h2{font-size:22px;margin-bottom:6px}
+  p{margin:0}
+  .sub{color:var(--muted);font-size:16px;max-width:56ch;margin-top:10px}
+  header{margin-bottom:44px}
+  .tag{font-size:13px;color:var(--muted);margin-bottom:14px}
+
+  .hero{display:grid;grid-template-columns:1.5fr 1fr;gap:28px;align-items:stretch;margin-bottom:56px}
+  .map-panel{background:var(--panel);border:1px solid var(--hair);border-radius:14px;padding:18px}
+  .kpi-stack{display:flex;flex-direction:column;gap:14px}
+  .kpi{background:var(--panel);border:1px solid var(--hair);border-radius:14px;padding:20px;flex:1;display:flex;flex-direction:column;justify-content:center}
+  .kpi .num{font-family:'Fraunces',serif;font-size:32px;color:var(--amber)}
+  .kpi .label{font-size:13px;color:var(--muted);margin-top:4px}
+
+  section{margin-bottom:56px}
+  .note{font-size:13px;color:var(--muted);margin-top:12px}
+
+  .region-row{display:flex;gap:14px;margin-top:20px;flex-wrap:wrap}
+  .region-card{background:var(--panel);border-radius:14px;padding:22px;min-width:220px;border-top:3px solid transparent}
+  .region-card.nassau{border-color:var(--nassau)}
+  .region-card.west{border-color:var(--west)}
+  .region-card.east{border-color:var(--east)}
+  .region-card h3{font-family:'Fraunces',serif;font-weight:500;font-size:19px;margin:0 0 14px}
+  .region-card .rev{font-family:'Fraunces',serif;font-size:26px;color:var(--ink)}
+  .region-card .rowline{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);padding:7px 0;border-top:1px solid var(--hair)}
+  .region-card .rowline span:last-child{color:var(--ink)}
+
+  .toggle{display:flex;gap:8px;margin:16px 0 22px}
+  .toggle button{background:var(--panel);color:var(--muted);border:1px solid var(--hair);border-radius:8px;padding:9px 16px;font:inherit;font-size:14px;cursor:pointer}
+  .toggle button.active{background:var(--panel2);color:var(--ink);border-color:var(--amber)}
+  .toggle button:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+
+  .bar-row{display:grid;grid-template-columns:130px 1fr 60px;align-items:center;gap:14px;margin-bottom:14px}
+  .bar-row .rname{font-size:14px}
+  .bar-track{background:var(--panel2);border-radius:6px;height:22px;overflow:hidden}
+  .bar-fill{height:100%;border-radius:6px;transition:width .5s ease}
+  .bar-fill.nassau{background:var(--nassau)}
+  .bar-fill.west{background:var(--west)}
+  .bar-fill.east{background:var(--east)}
+  .bar-row .pct{font-size:14px;text-align:right;color:var(--muted)}
+
+  .stacked{display:flex;height:34px;border-radius:8px;overflow:hidden;margin-top:18px}
+  .stacked div{height:100%}
+  .mix-legend{display:flex;flex-wrap:wrap;gap:18px;margin-top:14px;font-size:13px;color:var(--muted)}
+  .mix-legend .dot{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:middle}
+
+  ul.notes{margin:14px 0 0;padding-left:20px;color:var(--muted);font-size:14px}
+  ul.notes li{margin-bottom:8px}
+
+  @media (max-width:720px){
+    .hero{grid-template-columns:1fr}
+    h1{font-size:32px}
+    .region-row{flex-direction:column}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .bar-fill{transition:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <p class="tag">Five years of Long Island opportunity data</p>
+    <h1>Splitting Long Island</h1>
+    <p class="sub">Where the deliveries and dollars actually landed, region by region, closed-won revenue only.</p>
+  </header>
+
+  <section class="hero">
+    <div class="map-panel">
+      <svg width="100%" viewBox="0 0 680 340" role="img">
+        <title>Map of Long Island split into three territories</title>
+        <desc>Nassau in the west, West Suffolk through the middle, East Suffolk and the East End covering Brookhaven through Montauk and the forks</desc>
+        <defs>
+          <clipPath id="isle">
+            <path d="M60,215 L100,180 L170,170 L230,175 L300,165 L370,170 L430,160 L470,150 L510,130 L560,115 L605,105 L560,150 L515,170 L475,195 L505,210 L545,225 L585,245 L615,265 L565,280 L520,270 L480,260 L410,265 L340,260 L270,255 L200,245 L130,225 Z"/>
+          </clipPath>
+        </defs>
+        <rect x="0" y="0" width="235" height="340" fill="var(--nassau)" fill-opacity="0.55" clip-path="url(#isle)"/>
+        <rect x="235" y="0" width="240" height="340" fill="var(--west)" fill-opacity="0.55" clip-path="url(#isle)"/>
+        <rect x="475" y="0" width="205" height="340" fill="var(--east)" fill-opacity="0.55" clip-path="url(#isle)"/>
+        <path d="M60,215 L100,180 L170,170 L230,175 L300,165 L370,170 L430,160 L470,150 L510,130 L560,115 L605,105 L560,150 L515,170 L475,195 L505,210 L545,225 L585,245 L615,265 L565,280 L520,270 L480,260 L410,265 L340,260 L270,255 L200,245 L130,225 Z" fill="none" stroke="var(--ink)" stroke-width="1" opacity="0.35"/>
+        <text x="145" y="200" text-anchor="middle" fill="var(--nassau-ink)" font-size="15" font-weight="500">Nassau</text>
+        <text x="145" y="218" text-anchor="middle" fill="var(--muted)" font-size="12">$3.4M</text>
+        <text x="350" y="210" text-anchor="middle" fill="var(--west-ink)" font-size="15" font-weight="500">West Suffolk</text>
+        <text x="350" y="228" text-anchor="middle" fill="var(--muted)" font-size="12">$2.5M</text>
+        <text x="550" y="235" text-anchor="middle" fill="var(--east-ink)" font-size="15" font-weight="500">East End</text>
+        <text x="550" y="253" text-anchor="middle" fill="var(--muted)" font-size="12">$2.9M</text>
+      </svg>
+    </div>
+    <div class="kpi-stack">
+      <div class="kpi"><span class="num">$9.15M</span><span class="label">closed-won revenue, 5 years</span></div>
+      <div class="kpi"><span class="num">2,993</span><span class="label">closed-won deals, of 4,908 logged</span></div>
+      <div class="kpi"><span class="num">$3,060</span><span class="label">average deal size, closed-won</span></div>
+    </div>
+  </section>
+
+  <section class="regions">
+    <h2>Three territories</h2>
+    <p class="sub">Card width tracks each territory's share of closed-won revenue.</p>
+    <div class="region-row">
+      <div class="region-card nassau" style="flex-grow:39">
+        <h3>Nassau</h3>
+        <div class="rev">$3.39M</div>
+        <div class="rowline"><span>Closed-won deals</span><span>756</span></div>
+        <div class="rowline"><span>Avg deal size</span><span>$4,543</span></div>
+        <div class="rowline"><span>Commercial revenue</span><span>$1.26M</span></div>
+      </div>
+      <div class="region-card west" style="flex-grow:28">
+        <h3>West Suffolk</h3>
+        <div class="rev">$2.47M</div>
+        <div class="rowline"><span>Closed-won deals</span><span>842</span></div>
+        <div class="rowline"><span>Avg deal size</span><span>$2,981</span></div>
+        <div class="rowline"><span>Commercial revenue</span><span>$536K</span></div>
+      </div>
+      <div class="region-card east" style="flex-grow:33">
+        <h3>East End</h3>
+        <div class="rev">$2.86M</div>
+        <div class="rowline"><span>Closed-won deals</span><span>1,151</span></div>
+        <div class="rowline"><span>Avg deal size</span><span>$2,521</span></div>
+        <div class="rowline"><span>Commercial revenue</span><span>$760K</span></div>
+      </div>
+    </div>
+    <p class="note">Huntington/Smithtown town lines mark the West Suffolk boundary; Brookhaven town line marks the start of the East End.</p>
+  </section>
+
+  <section class="compare">
+    <h2>Volume and revenue point different directions</h2>
+    <p class="sub">The East End has the most opportunities. Nassau has the biggest average deal. Toggle to see why the split isn't obvious.</p>
+    <div class="toggle">
+      <button class="active" data-view="revenue">Closed-won revenue</button>
+      <button data-view="volume">Opportunity count, all stages</button>
+    </div>
+    <div class="bars" id="bars">
+      <div class="bar-row">
+        <span class="rname">Nassau</span>
+        <div class="bar-track"><div class="bar-fill nassau" data-revenue="39" data-volume="23" style="width:39%"></div></div>
+        <span class="pct" data-revenue="39%" data-volume="23%">39%</span>
+      </div>
+      <div class="bar-row">
+        <span class="rname">West Suffolk</span>
+        <div class="bar-track"><div class="bar-fill west" data-revenue="28" data-volume="31" style="width:28%"></div></div>
+        <span class="pct" data-revenue="28%" data-volume="31%">28%</span>
+      </div>
+      <div class="bar-row">
+        <span class="rname">East End</span>
+        <div class="bar-track"><div class="bar-fill east" data-revenue="33" data-volume="46" style="width:33%"></div></div>
+        <span class="pct" data-revenue="33%" data-volume="46%">33%</span>
+      </div>
+    </div>
+    <p class="note">Shares shown are among the three Long Island territories only, excluding out-of-area opportunities. Volume includes every pipeline stage; revenue is closed-won only.</p>
+  </section>
+
+  <section class="mix">
+    <h2>Residential vs. commercial, closed-won revenue</h2>
+    <div class="stacked" role="img" aria-label="Stacked bar: 51 percent residential, 28 percent commercial, 19 percent unclassified, 1 percent dealer or cylinder">
+      <div style="width:51.5%;background:var(--amber)"></div>
+      <div style="width:28%;background:var(--east)"></div>
+      <div style="width:19%;background:var(--panel2);border-right:1px solid var(--hair)"></div>
+      <div style="width:1.5%;background:var(--west)"></div>
+    </div>
+    <div class="mix-legend">
+      <span><span class="dot" style="background:var(--amber)"></span>Residential, 51%</span>
+      <span><span class="dot" style="background:var(--east)"></span>Commercial, 28%</span>
+      <span><span class="dot" style="background:var(--panel2);border:1px solid var(--hair)"></span>Unclassified, 19%</span>
+      <span><span class="dot" style="background:var(--west)"></span>Dealer/cylinder, 1%</span>
+    </div>
+    <p class="note">Nassau alone accounts for 49% of all commercial revenue on the island, despite being just 21% of total opportunity volume.</p>
+  </section>
+
+  <section class="footnotes">
+    <h2>Notes on the data</h2>
+    <ul class="notes">
+      <li>All revenue figures are Closed-Won opportunities only (2,993 of 4,908 logged over five years).</li>
+      <li>About 19% of closed-won revenue has no residential/commercial category attached in the source data.</li>
+      <li>Roughly 5% of opportunities fall outside Nassau/Suffolk zip codes (NYC boroughs, other states, or data entry issues) and aren't reflected in the territory cards above.</li>
+      <li>Territory boundaries are drawn at town lines (Nassau/Suffolk county line, and the Huntington-Smithtown/Brookhaven line) and are a planning approximation, not a precise parcel-level cut.</li>
+    </ul>
+  </section>
+
+</div>
+<script>
+  const buttons = document.querySelectorAll('.toggle button');
+  const fills = document.querySelectorAll('.bar-fill');
+  const pcts = document.querySelectorAll('.pct');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const view = btn.dataset.view;
+      fills.forEach(f => { f.style.width = f.dataset[view] + '%'; });
+      pcts.forEach(p => { p.textContent = p.dataset[view]; });
+    });
+  });
+</script>
+</body>
+</html>
